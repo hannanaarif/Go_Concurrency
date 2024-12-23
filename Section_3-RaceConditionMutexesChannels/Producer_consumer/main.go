@@ -46,6 +46,7 @@ func makePizza(pizzaNumber int) *pizzaOrder {
 		} else {
 			pizzasMade++
 		}
+		total++
 
 		fmt.Printf("Making pizza #%d.It will be ready in %d seconds\n", pizzaNumber, delay)
 
@@ -125,13 +126,35 @@ func main() {
 				color.Red(i.message)
 				color.Red("Order #%d has been cancelled\n", i.pizzaNumber)
 			}
-		}else{
+		} else {
 			color.Cyan("The Pizzeria is closed for the day!")
-			err:=pizzaJob.Close()
-			if err!=nil{
-				color.Red("Error closing the pizzeria",err)
+			err := pizzaJob.Close()
+			if err != nil {
+				color.Red("Error closing the pizzeria", err)
 			}
 		}
-       //print out the ending message
+
 	}
+	//print out the ending message
+	color.Cyan("----------------------------------")
+	color.Cyan("The Pizzeria is closed for the day!")
+	color.Cyan("We made %d pizzas today,But failed to make %d with %d total attemps\n", pizzasMade, pizzasFailed, total)
+
+	switch {
+	case pizzasFailed > 9:
+		color.Red("We had a awfull bad day today")
+
+	case pizzasFailed >= 6:
+		color.Red("it was not a very good day today")
+
+	case pizzasFailed >= 4:
+		color.Yellow("It was a ok day today")
+
+	case pizzasFailed >= 2:
+		color.Green("It was a preety good day today")
+
+	default:
+		color.Green("It was a great day today")
+	}
+
 }
